@@ -47,9 +47,9 @@ class _BaseAppState extends State<BaseApp> {
           title: Text('Stateful one'),
         ),
         body: Column(children: [
-          Text('Dynamic answer'),
+          Question('What\s your state?'),
           RaisedButton(
-            child: Question(questions[
+            child: Text(questions[
                 _questionIndex]), // This WON'T WORK. StatelessWidget is immutable.
             onPressed: answerQuestion,
           ),
