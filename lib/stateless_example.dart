@@ -7,9 +7,11 @@ class Example {
   String name;
   int age;
 
-  Example(String inputName, int age,
+// If it's not named, it is required. It also can't have a default value.
+  Example(String inputName,
       {String optionalVar1 = 'default',
       int optionalVar2 = 0,
+      int age=30,
       @required String namedValue3}) {
     name = inputName;
     age = this.age;
@@ -17,6 +19,11 @@ class Example {
     print(optionalVar2);
   }
   // Alternatively do Example({this.name, this.age}) as shorthand for constructed properties.
+
+  // Sample class with utilty constructor
+  Example.veryOld(this.name) {
+    age = 600;
+  }
 }
 
 // StatelessWidget is from Flutter
@@ -29,7 +36,9 @@ class StaticBaseApp extends StatelessWidget {
   @override
   // build is a StatelessWidget method
   Widget build(BuildContext ctx) {
-    Example('Test', 30, namedValue3: 'String 3');
+    Example('Test', age: 30, namedValue3: 'String 3');
+  // Sample class with utilty constructor for predefined settings.
+    Example('Test very old', namedValue3: 'Required');
 
     var questionIndex = 0;
     // This is a method custom to BaseApp
