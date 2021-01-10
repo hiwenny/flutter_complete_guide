@@ -17,8 +17,9 @@ class Quiz extends StatelessWidget {
       Question(questions[questionIndex]['questionText']),
       // This is because Dart doesn't support list-in-object :( so need to cast it into List<type>
       // Spread operator is as in JS
-      ...(questions[questionIndex]['answers'] as List<String>).map((answer) {
-        return Answer(answerQuestion, answer);
+      ...(questions[questionIndex]['answers'] as List<Map<String, Object>>).map((answer) {
+        // Example workaround passing arg to a callback
+        return Answer(() => answerQuestion(answer['score']), answer['text']);
       }).toList() // because map<T> returns an Iterable<T> instead of a List<T>
 
       // Above is a modularised version of
