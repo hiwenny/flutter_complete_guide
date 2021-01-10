@@ -80,6 +80,13 @@ class _BaseAppState extends State<BaseApp> {
     }
   }
 
+  void _resetQuiz() {
+    setState(() {
+      _questionIndex = 0;
+      _totalScore = 0;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // It's possible to do var questions = const ['something']
@@ -98,7 +105,7 @@ class _BaseAppState extends State<BaseApp> {
                   questions: _questionsWithScore,
                   answerQuestion: _answerQuestion,
                   questionIndex: _questionIndex)
-              : Result(_totalScore)),
+              : Result(_totalScore, _resetQuiz)),
     );
   }
 }
