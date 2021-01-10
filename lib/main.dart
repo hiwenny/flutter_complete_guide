@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import './question.dart';
-import './answer.dart';
-
+import './quiz.dart';
+import './result.dart';
 void main() {
   // runApp(StaticBaseApp());
   runApp(BaseApp());
@@ -23,7 +22,7 @@ class _BaseAppState extends State<BaseApp> {
   var _questionIndex = 0;
 
   // questions is actually storing pointer
-  final questions = const [
+  final _questions = const [
     {
       'questionText': 'Whatchu doing?',
       'answers': ['Mmmm?', 'Bluey', 'Good boy']
@@ -41,7 +40,7 @@ class _BaseAppState extends State<BaseApp> {
   void _answerQuestion() {
     // To check if exist: _questionIndex != null
     // Ternary is same as JS. condition ? return 0 : return 1;
-    if (_questionIndex < questions.length) {
+    if (_questionIndex < _questions.length) {
       // IMPORTANT
       // Without this, the internal state will still change, but doesn't re-render.
       // a.k.a doesn't run build() again.
@@ -66,26 +65,9 @@ class _BaseAppState extends State<BaseApp> {
         appBar: AppBar(
           title: Text('Stateful one'),
         ),
-        body: _questionIndex < questions.length
-            ? Column(children: [
-                Question(questions[_questionIndex]['questionText']),
-                // This is because Dart doesn't support list-in-object :( so need to cast it into List<type>
-                // Spread operator is as in JS
-                ...(questions[_questionIndex]['answers'] as List<String>)
-                    .map((answer) {
-                  return Answer(_answerQuestion, answer);
-                }).toList() // because map<T> returns an Iterable<T> instead of a List<T>
-
-                // Above is a modularised version of
-                // RaisedButton(
-                //   child: Text(questions[_questionIndex][
-                //       'questionText']),
-                //   onPressed: _answerQuestion,
-                // ),
-              ])
-            : Center(
-                child: Text('Seebs!'),
-              ),
+        body: _questionIndex < _questions.length
+            ? Quiz(questions: _questions, answerQuestion: _answerQuestion, questionIndex: _questionIndex)
+            : Result()
       ),
     );
   }
