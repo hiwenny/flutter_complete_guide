@@ -34,12 +34,20 @@ class _BaseAppState extends State<BaseApp> {
 
   @override
   Widget build(BuildContext context) {
-    // Instead of String[]
-    List<String> questions = [
-      'Question from list 1',
-      'Question from list 2',
-      'Question from list 3',
-      'Question from list 4',
+
+    var questions = [
+      {
+        'questionText': 'Whatchu doing?',
+        'answers': ['Mmmm?', 'Bluey', 'Good boy']
+      },
+      {
+        'questionText': 'Pretty birdy?',
+        'answers': ['Bluey\'s a good boy']
+      },
+      {
+        'questionText': 'Want some seebs?',
+        'answers': ['Chirp', 'Monch', 'Flies away']
+      },
     ];
 
     return MaterialApp(
@@ -48,13 +56,17 @@ class _BaseAppState extends State<BaseApp> {
           title: Text('Stateful one'),
         ),
         body: Column(children: [
-          Question('What\s your state?'),
-          Answer(_answerQuestion),
-          RaisedButton(
-            child: Text(questions[
-                _questionIndex]), // This WON'T WORK. StatelessWidget is immutable.
-            onPressed: _answerQuestion,
-          ),
+          Question(questions[_questionIndex]['questionText']),
+          // This is because Dart doesn't support list-in-object :( so need to cast it into List<type>
+          // Spread operator is as in JS
+          ...(questions[_questionIndex]['answers']as List<String>).map((answer) {
+            return Answer(_answerQuestion, answer);
+          }).toList()
+          // RaisedButton(
+          //   child: Text(questions[_questionIndex][
+          //       'questionText']),
+          //   onPressed: _answerQuestion,
+          // ),
         ]),
       ),
     );
